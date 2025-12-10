@@ -19,7 +19,7 @@ def main():
         print("Please copy .env.example to .env and add your OpenAI API key")
         return
 
-    print("🚀 Initializing Customer Relationship AI Agent...\n")
+    print(" Initializing Customer Relationship AI Agent...\n")
     
     # Initialize agent
     agent = CRMAgent(openai_api_key=api_key, use_local_memory=True)

@@ -17,7 +17,7 @@ load_dotenv()
 # Page configuration
 st.set_page_config(
     page_title="VANCO AI - Enterprise Client Agent",
-    page_icon="🚀",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -165,11 +165,11 @@ st.markdown("""
     /* Chat Container */
     .chat-wrapper {
         background: white;
-        border-radius: 20px;
-        padding: 1.5rem;
+        border-radius: 16px;
+        padding: 1rem;
         box-shadow: 0 4px 20px rgba(0,0,0,0.06);
         border: 1px solid rgba(0,0,0,0.05);
-        min-height: 400px;
+        min-height: auto;
     }
     
     /* Chat Messages */
@@ -193,12 +193,25 @@ st.markdown("""
         border-radius: 18px 18px 4px 18px !important;
     }
     
+    /* Agent/Assistant avatar styling - Vanco blue theme */
+    .stChatMessage[data-testid="chat-message-assistant"] .stChatMessageAvatarContainer {
+        background: linear-gradient(135deg, #3b5998 0%, #2b4570 100%) !important;
+        border-radius: 50% !important;
+        padding: 2px !important;
+    }
+    
+    .stChatMessage[data-testid="chat-message-assistant"] img,
+    .stChatMessage[data-testid="chat-message-assistant"] .stChatMessageAvatar {
+        border-radius: 50% !important;
+        background: #3b5998 !important;
+    }
+    
     /* Empty chat state */
     .empty-chat-state {
         text-align: center;
-        padding: 4rem 2rem;
+        padding: 2rem 1.5rem;
         background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-        border-radius: 16px;
+        border-radius: 12px;
         border: 2px dashed #e2e8f0;
     }
     
@@ -862,19 +875,19 @@ def display_chat_messages(customer_id: str):
 
     if not history:
         st.markdown(f"""
-        <div class='empty-chat-state'>
-            <div class='empty-chat-icon'>👋</div>
-            <h3>Start a Conversation with {customer_name}</h3>
-            <p>Begin discussing AI solutions, projects, or services.<br>
-            Every interaction builds their profile and helps personalize recommendations.</p>
+        <div style='text-align: center; padding: 1.5rem; color: #64748b;'>
+            <div style='font-size: 2rem; margin-bottom: 0.5rem;'>👋</div>
+            <p style='margin: 0; font-size: 14px;'>Start a conversation with <strong>{customer_name}</strong></p>
+            <p style='margin: 0.25rem 0 0 0; font-size: 12px; color: #94a3b8;'>Type a message below to begin</p>
         </div>
         """, unsafe_allow_html=True)
         return
 
     # Display messages using Streamlit's chat_message with custom avatars
-    # Use local Vanco logo for bot avatar
+    # Path to Vanco logo
     import os
-    vanco_logo_path = os.path.join(os.path.dirname(__file__), "..", "assets", "vanco_logo.png")
+    vanco_icon_png = os.path.join(os.path.dirname(__file__), "..", "assets", "vanco_icon.png")
+    vanco_icon_svg = os.path.join(os.path.dirname(__file__), "..", "assets", "vanco_icon.svg")
     
     for msg in history:
         role = msg.get("role")
@@ -886,13 +899,17 @@ def display_chat_messages(customer_id: str):
                 st.write(text)
                 st.caption(f"🕐 {timestamp}")
         else:
-            # Use local logo if exists, otherwise use URL
-            if os.path.exists(vanco_logo_path):
-                with st.chat_message("assistant", avatar=vanco_logo_path):
+            # Use Vanco logo icon - prefer PNG, fallback to SVG, then emoji
+            if os.path.exists(vanco_icon_png):
+                with st.chat_message("assistant", avatar=vanco_icon_png):
+                    st.write(text)
+                    st.caption(f"🕐 {timestamp}")
+            elif os.path.exists(vanco_icon_svg):
+                with st.chat_message("assistant", avatar=vanco_icon_svg):
                     st.write(text)
                     st.caption(f"🕐 {timestamp}")
             else:
-                with st.chat_message("assistant", avatar="https://www.vanco.ai/images/Vanco-logo.svg"):
+                with st.chat_message("assistant", avatar="💠"):
                     st.write(text)
                     st.caption(f"🕐 {timestamp}")
 
@@ -1043,7 +1060,7 @@ def display_customer_profile(customer_id: str):
                     value_str = f"${project.get('estimated_value'):,.0f}" if project.get('estimated_value') else "TBD"
                     st.markdown(f"""
                     <div class="project-card">
-                        <h5>🚀 {project.get('project_name', 'New Project')}</h5>
+                        <h5> {project.get('project_name', 'New Project')}</h5>
                         <p>{project.get('description', 'No description')}</p>
                         <span class="project-value">{value_str}</span>
                     </div>
@@ -1298,10 +1315,14 @@ def main():
         <p style="color: rgba(255,255,255,0.5); font-size: 11px; letter-spacing: 1px; margin-bottom: 0.75rem;">CLIENT MANAGEMENT</p>
         """, unsafe_allow_html=True)
 
-        # Add Client Form - Using checkbox toggle instead of expander
-        show_form = st.checkbox("➕ Add New Client", value=False, key="show_add_client_form")
+        # Add Client Form - Using toggle button
+        if "show_add_form" not in st.session_state:
+            st.session_state.show_add_form = False
         
-        if show_form:
+        if st.button("➕ Add New Client", key="add_client_toggle", use_container_width=True):
+            st.session_state.show_add_form = not st.session_state.show_add_form
+        
+        if st.session_state.show_add_form:
             with st.form("new_customer_form", clear_on_submit=True):
                 cust_id = st.text_input("Client ID", placeholder="client_001", label_visibility="collapsed")
                 cust_name = st.text_input("Contact Name", placeholder="Contact Name", label_visibility="collapsed")
@@ -1357,12 +1378,7 @@ def main():
         
         # Footer
         st.markdown("<div style='height: 1px; background: rgba(255,255,255,0.1); margin: 1.5rem 0 1rem 0;'></div>", unsafe_allow_html=True)
-        st.markdown("""
-        <div style="text-align: center;">
-            <p style="color: rgba(255,255,255,0.3); font-size: 10px; margin: 0;">Powered by</p>
-            <p style="color: rgba(255,255,255,0.5); font-size: 11px; margin: 4px 0 0 0;">LangChain • LangGraph • OpenAI</p>
-        </div>
-        """, unsafe_allow_html=True)
+        
 
     # Main content area
     if st.session_state.current_customer is None:
@@ -1436,17 +1452,10 @@ def main():
     tab1, tab2, tab3, tab4 = st.tabs(["💬 Conversation", "💼 Client Profile", "🧠 AI Memory", "🎯 Recommendations"])
 
     with tab1:
-        # Chat container with improved styling
-        st.markdown('<div class="chat-wrapper">', unsafe_allow_html=True)
+        # Chat container - streamlined
+        display_chat_messages(customer_id)
         
-        chat_container = st.container()
-        
-        with chat_container:
-            display_chat_messages(customer_id)
-        
-        st.markdown('</div>', unsafe_allow_html=True)
-
-        st.markdown("---")
+        st.markdown("")
         
         # Input section with chat_input for better UX
         user_message = st.chat_input(
@@ -1490,7 +1499,7 @@ def main():
             if st.button("🤖 AI Consulting", use_container_width=True, help="Discuss AI consulting services"):
                 pass
         with col2:
-            if st.button("🚀 New Project", use_container_width=True, help="Start a new project discussion"):
+            if st.button(" New Project", use_container_width=True, help="Start a new project discussion"):
                 pass
         with col3:
             if st.button("📅 Schedule Demo", use_container_width=True, help="Schedule a product demo"):
@@ -1510,18 +1519,18 @@ def main():
         display_recommendations(customer_id)
 
     # Footer with Vanco AI branding
+    st.markdown("---")
     st.markdown("""
-    <div class="footer">
-        <img src="https://www.vanco.ai/images/Vanco-logo.svg" alt="Vanco AI" style="max-width: 120px; opacity: 0.7; margin-bottom: 1rem;">
-        <p>Enterprise Client Relationship Agent</p>
-        <p>Custom AI Development from Concept to Production | Trusted by 50+ Enterprises Worldwide</p>
-        <div class="footer-links">
-            <a href="https://www.vanco.ai" target="_blank">Website</a>
-            <a href="https://www.vanco.ai/services" target="_blank">Services</a>
-            <a href="https://www.vanco.ai/contactus" target="_blank">Contact Us</a>
+    <div style="text-align: center; padding: 2rem 1rem; margin-top: 2rem;">
+        <img src="https://www.vanco.ai/images/Vanco-logo.svg" alt="Vanco AI" style="max-width: 100px; opacity: 0.6; margin-bottom: 1rem;">
+        <p style="color: #6b7280; font-size: 13px; margin: 0.5rem 0;">Enterprise Client Relationship Agent</p>
+        <p style="color: #9ca3af; font-size: 11px; margin: 0.25rem 0;">Custom AI Development from Concept to Production</p>
+        <div style="margin-top: 1rem;">
+            <a href="https://www.vanco.ai" target="_blank" style="color: #667eea; text-decoration: none; font-size: 12px; margin: 0 0.75rem;">Website</a>
+            <a href="https://www.vanco.ai/services" target="_blank" style="color: #667eea; text-decoration: none; font-size: 12px; margin: 0 0.75rem;">Services</a>
+            <a href="https://www.vanco.ai/contactus" target="_blank" style="color: #667eea; text-decoration: none; font-size: 12px; margin: 0 0.75rem;">Contact Us</a>
         </div>
-    
-        <p style="font-size: 10px; color: #d1d5db;">© 2025 Vanco AI. All Rights Reserved.</p>
+        <p style="font-size: 10px; color: #9ca3af; margin-top: 1rem;">© 2025 Vanco AI. All Rights Reserved.</p>
     </div>
     """, unsafe_allow_html=True)
 

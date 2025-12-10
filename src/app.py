@@ -265,12 +265,25 @@ st.markdown("""
     
     /* Section Cards */
     .section-card {
-        background: white;
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
         border-radius: 16px;
         padding: 1.5rem;
         margin: 1rem 0;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        border: 1px solid rgba(0,0,0,0.05);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.08);
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .section-card h4 {
+        color: #1a1a2e !important;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin: 0.5rem 0;
+    }
+    
+    .section-card p {
+        color: #4b5563 !important;
+        font-size: 14px;
+        line-height: 1.6;
     }
     
     .section-header {
@@ -1396,32 +1409,32 @@ def main():
         col1, col2, col3 = st.columns(3)
         with col1:
             st.markdown("""
-            <div class="section-card" style="text-align: center; min-height: 200px;">
-                <div style="font-size: 3rem; margin-bottom: 1rem;">🧠</div>
-                <h4>Intelligent Memory</h4>
-                <p style="color: #6b7280; font-size: 14px;">Never forget a client interaction. AI-powered memory retrieves context from every conversation.</p>
+            <div style="background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%); border-radius: 20px; padding: 2rem 1.5rem; text-align: center; min-height: 220px; box-shadow: 0 10px 40px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.3); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                <div style="font-size: 3rem; margin-bottom: 1rem; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));">🧠</div>
+                <h4 style="color: #1a1a2e !important; font-size: 1.25rem; font-weight: 700; margin: 0.75rem 0; font-family: 'Plus Jakarta Sans', sans-serif;">Intelligent Memory</h4>
+                <p style="color: #4b5563 !important; font-size: 14px; line-height: 1.7; margin: 0;">Never forget a client interaction. AI-powered memory retrieves context from every conversation.</p>
             </div>
             """, unsafe_allow_html=True)
         with col2:
             st.markdown("""
-            <div class="section-card" style="text-align: center; min-height: 200px;">
-                <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
-                <h4>Smart Profiles</h4>
-                <p style="color: #6b7280; font-size: 14px;">Automatically build detailed client profiles with interests, requirements, and sentiment tracking.</p>
+            <div style="background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%); border-radius: 20px; padding: 2rem 1.5rem; text-align: center; min-height: 220px; box-shadow: 0 10px 40px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.3); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                <div style="font-size: 3rem; margin-bottom: 1rem; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));">📊</div>
+                <h4 style="color: #1a1a2e !important; font-size: 1.25rem; font-weight: 700; margin: 0.75rem 0; font-family: 'Plus Jakarta Sans', sans-serif;">Smart Profiles</h4>
+                <p style="color: #4b5563 !important; font-size: 14px; line-height: 1.7; margin: 0;">Automatically build detailed client profiles with interests, requirements, and sentiment tracking.</p>
             </div>
             """, unsafe_allow_html=True)
         with col3:
             st.markdown("""
-            <div class="section-card" style="text-align: center; min-height: 200px;">
-                <div style="font-size: 3rem; margin-bottom: 1rem;">🎯</div>
-                <h4>AI Recommendations</h4>
-                <p style="color: #6b7280; font-size: 14px;">Get personalized service recommendations based on client needs and project history.</p>
+            <div style="background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%); border-radius: 20px; padding: 2rem 1.5rem; text-align: center; min-height: 220px; box-shadow: 0 10px 40px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.3); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                <div style="font-size: 3rem; margin-bottom: 1rem; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));">🎯</div>
+                <h4 style="color: #1a1a2e !important; font-size: 1.25rem; font-weight: 700; margin: 0.75rem 0; font-family: 'Plus Jakarta Sans', sans-serif;">AI Recommendations</h4>
+                <p style="color: #4b5563 !important; font-size: 14px; line-height: 1.7; margin: 0;">Get personalized service recommendations based on client needs and project history.</p>
             </div>
             """, unsafe_allow_html=True)
         
         st.markdown("""
-        <div style="text-align: center; margin-top: 2rem;">
-            <p style="color: #9ca3af; font-size: 14px;">👈 Select or add a client from the sidebar to get started</p>
+        <div style="text-align: center; margin-top: 2rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 12px; backdrop-filter: blur(10px);">
+            <p style="color: #e5e7eb; font-size: 15px; font-weight: 500; text-shadow: 0 1px 2px rgba(0,0,0,0.2); margin: 0;">👈 Select or add a client from the sidebar to get started</p>
         </div>
         """, unsafe_allow_html=True)
         return

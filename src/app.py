@@ -589,18 +589,55 @@ st.markdown("""
         fill: #a0a0b8 !important;
     }
     
-    /* Dropdown menu styling */
+    /* Dropdown menu styling - Dark theme for sidebar */
     [data-baseweb="popover"] {
-        background: #1e1e2e !important;
+        background: #1a1a2e !important;
         border: 1px solid #3d3d5c !important;
+        border-radius: 8px !important;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.5) !important;
     }
     
-    [data-baseweb="popover"] li {
+    [data-baseweb="popover"] > div {
+        background: #1a1a2e !important;
+    }
+    
+    [data-baseweb="menu"] {
+        background: #1a1a2e !important;
+    }
+    
+    [data-baseweb="menu"] ul {
+        background: #1a1a2e !important;
+    }
+    
+    [data-baseweb="menu"] li {
+        background: #1a1a2e !important;
+        color: #e0e0e0 !important;
+    }
+    
+    [data-baseweb="menu"] li:hover {
+        background: #2d2d4a !important;
         color: #ffffff !important;
     }
     
-    [data-baseweb="popover"] li:hover {
-        background: #2d2d44 !important;
+    [data-baseweb="menu"] [aria-selected="true"] {
+        background: #3d3d5c !important;
+        color: #ffffff !important;
+    }
+    
+    /* Option styling */
+    [role="option"] {
+        background: #1a1a2e !important;
+        color: #e0e0e0 !important;
+    }
+    
+    [role="option"]:hover {
+        background: #2d2d4a !important;
+        color: #ffffff !important;
+    }
+    
+    [role="listbox"] {
+        background: #1a1a2e !important;
+        border: 1px solid #3d3d5c !important;
     }
     
     /* Sidebar button styling */
@@ -835,6 +872,10 @@ def display_chat_messages(customer_id: str):
         return
 
     # Display messages using Streamlit's chat_message with custom avatars
+    # Use local Vanco logo for bot avatar
+    import os
+    vanco_logo_path = os.path.join(os.path.dirname(__file__), "..", "assets", "vanco_logo.png")
+    
     for msg in history:
         role = msg.get("role")
         text = msg.get("message")
@@ -845,9 +886,15 @@ def display_chat_messages(customer_id: str):
                 st.write(text)
                 st.caption(f"🕐 {timestamp}")
         else:
-            with st.chat_message("assistant", avatar="🤖"):
-                st.write(text)
-                st.caption(f"🕐 {timestamp}")
+            # Use local logo if exists, otherwise use URL
+            if os.path.exists(vanco_logo_path):
+                with st.chat_message("assistant", avatar=vanco_logo_path):
+                    st.write(text)
+                    st.caption(f"🕐 {timestamp}")
+            else:
+                with st.chat_message("assistant", avatar="https://www.vanco.ai/images/Vanco-logo.svg"):
+                    st.write(text)
+                    st.caption(f"🕐 {timestamp}")
 
 
 def display_customer_profile(customer_id: str):
@@ -1228,7 +1275,7 @@ def main():
         """, unsafe_allow_html=True)
 
         # Initialize Agent Button
-        if st.button("🚀 Initialize Agent", key="init_btn", use_container_width=True, type="primary"):
+        if st.button(" Initialize Agent", key="init_btn", use_container_width=True, type="primary"):
             with st.spinner("🔄 Initializing..."):
                 if initialize_agent():
                     st.success("✅ Ready!")
@@ -1473,7 +1520,7 @@ def main():
             <a href="https://www.vanco.ai/services" target="_blank">Services</a>
             <a href="https://www.vanco.ai/contactus" target="_blank">Contact Us</a>
         </div>
-        <p style="margin-top: 1rem; font-size: 11px;">Powered by LangChain • LangGraph • OpenAI • Supermemory</p>
+    
         <p style="font-size: 10px; color: #d1d5db;">© 2025 Vanco AI. All Rights Reserved.</p>
     </div>
     """, unsafe_allow_html=True)

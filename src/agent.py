@@ -150,12 +150,14 @@ Client Message: {user_message}
 
 Based on the client's history, project interests, and current message, provide a personalized, professional response.
 Remember to:
-1. Address the client by name
+1. Address the client by name ({customer_name})
 2. Reference their past projects, interests, or industry when relevant
 3. Suggest relevant Vanco AI services or solutions if appropriate
 4. Show deep understanding of their enterprise AI needs
 5. Provide actionable next steps or schedule consultation if needed
 6. Maintain a consultative, expert tone befitting enterprise clients
+7. Do NOT include any signature, sign-off with a name, or "[Your Name]" placeholder - just provide the response content directly
+8. Keep the response conversational and helpful without formal letter-style endings
 
 Response:"""
         )

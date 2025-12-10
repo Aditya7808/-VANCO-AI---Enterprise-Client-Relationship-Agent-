@@ -111,6 +111,48 @@ st.markdown("""
         font-size: 1.1rem;
     }
     
+    /* Feature Cards - Ensure visibility in both themes */
+    .feature-card {
+        background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%) !important;
+        border-radius: 20px;
+        padding: 2rem 1.5rem;
+        text-align: center;
+        min-height: 220px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.08);
+        border: 1px solid rgba(0,0,0,0.08);
+    }
+    
+    .feature-card .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+    }
+    
+    .feature-card h4,
+    .feature-card .feature-title {
+        color: #1a1a2e !important;
+        font-size: 1.25rem !important;
+        font-weight: 700 !important;
+        margin: 0.75rem 0 !important;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
+        -webkit-text-fill-color: #1a1a2e !important;
+    }
+    
+    .feature-card p,
+    .feature-card .feature-desc {
+        color: #4b5563 !important;
+        font-size: 14px !important;
+        line-height: 1.7 !important;
+        margin: 0 !important;
+        -webkit-text-fill-color: #4b5563 !important;
+    }
+    
+    /* Force text colors in main content area for dark theme compatibility */
+    .main [data-testid="stVerticalBlock"] .feature-card h4,
+    .main [data-testid="stVerticalBlock"] .feature-card p {
+        color: inherit !important;
+    }
+    
     /* Client Header Card */
     .client-header-card {
         background: white;
@@ -1409,32 +1451,32 @@ def main():
         col1, col2, col3 = st.columns(3)
         with col1:
             st.markdown("""
-            <div style="background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%); border-radius: 20px; padding: 2rem 1.5rem; text-align: center; min-height: 220px; box-shadow: 0 10px 40px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.3); transition: transform 0.3s ease, box-shadow 0.3s ease;">
-                <div style="font-size: 3rem; margin-bottom: 1rem; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));">🧠</div>
-                <h4 style="color: #1a1a2e !important; font-size: 1.25rem; font-weight: 700; margin: 0.75rem 0; font-family: 'Plus Jakarta Sans', sans-serif;">Intelligent Memory</h4>
-                <p style="color: #4b5563 !important; font-size: 14px; line-height: 1.7; margin: 0;">Never forget a client interaction. AI-powered memory retrieves context from every conversation.</p>
+            <div class="feature-card" style="background: #ffffff !important;">
+                <div class="feature-icon">🧠</div>
+                <h4 class="feature-title" style="color: #1a1a2e !important; -webkit-text-fill-color: #1a1a2e !important;">Intelligent Memory</h4>
+                <p class="feature-desc" style="color: #4b5563 !important; -webkit-text-fill-color: #4b5563 !important;">Never forget a client interaction. AI-powered memory retrieves context from every conversation.</p>
             </div>
             """, unsafe_allow_html=True)
         with col2:
             st.markdown("""
-            <div style="background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%); border-radius: 20px; padding: 2rem 1.5rem; text-align: center; min-height: 220px; box-shadow: 0 10px 40px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.3); transition: transform 0.3s ease, box-shadow 0.3s ease;">
-                <div style="font-size: 3rem; margin-bottom: 1rem; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));">📊</div>
-                <h4 style="color: #1a1a2e !important; font-size: 1.25rem; font-weight: 700; margin: 0.75rem 0; font-family: 'Plus Jakarta Sans', sans-serif;">Smart Profiles</h4>
-                <p style="color: #4b5563 !important; font-size: 14px; line-height: 1.7; margin: 0;">Automatically build detailed client profiles with interests, requirements, and sentiment tracking.</p>
+            <div class="feature-card" style="background: #ffffff !important;">
+                <div class="feature-icon">📊</div>
+                <h4 class="feature-title" style="color: #1a1a2e !important; -webkit-text-fill-color: #1a1a2e !important;">Smart Profiles</h4>
+                <p class="feature-desc" style="color: #4b5563 !important; -webkit-text-fill-color: #4b5563 !important;">Automatically build detailed client profiles with interests, requirements, and sentiment tracking.</p>
             </div>
             """, unsafe_allow_html=True)
         with col3:
             st.markdown("""
-            <div style="background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%); border-radius: 20px; padding: 2rem 1.5rem; text-align: center; min-height: 220px; box-shadow: 0 10px 40px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.3); transition: transform 0.3s ease, box-shadow 0.3s ease;">
-                <div style="font-size: 3rem; margin-bottom: 1rem; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));">🎯</div>
-                <h4 style="color: #1a1a2e !important; font-size: 1.25rem; font-weight: 700; margin: 0.75rem 0; font-family: 'Plus Jakarta Sans', sans-serif;">AI Recommendations</h4>
-                <p style="color: #4b5563 !important; font-size: 14px; line-height: 1.7; margin: 0;">Get personalized service recommendations based on client needs and project history.</p>
+            <div class="feature-card" style="background: #ffffff !important;">
+                <div class="feature-icon">🎯</div>
+                <h4 class="feature-title" style="color: #1a1a2e !important; -webkit-text-fill-color: #1a1a2e !important;">AI Recommendations</h4>
+                <p class="feature-desc" style="color: #4b5563 !important; -webkit-text-fill-color: #4b5563 !important;">Get personalized service recommendations based on client needs and project history.</p>
             </div>
             """, unsafe_allow_html=True)
         
         st.markdown("""
-        <div style="text-align: center; margin-top: 2rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 12px; backdrop-filter: blur(10px);">
-            <p style="color: #e5e7eb; font-size: 15px; font-weight: 500; text-shadow: 0 1px 2px rgba(0,0,0,0.2); margin: 0;">👈 Select or add a client from the sidebar to get started</p>
+        <div style="text-align: center; margin-top: 2rem; padding: 1rem 1.5rem; background: linear-gradient(135deg, rgba(102,126,234,0.15) 0%, rgba(118,75,162,0.15) 100%); border-radius: 12px; border: 1px solid rgba(102,126,234,0.3);">
+            <p style="color: #667eea; font-size: 15px; font-weight: 600; margin: 0; -webkit-text-fill-color: #667eea;">👈 Select or add a client from the sidebar to get started</p>
         </div>
         """, unsafe_allow_html=True)
         return
